@@ -7,27 +7,50 @@ RAW_URL = "https://raw.githubusercontent.com/renpyflare/duckgen/refs/heads/main/
 
 TARGET = Path("/content/duckgen_colab.py")
 
+PACKAGES = [
+    "fastapi",
+    "uvicorn",
+    "pyngrok",
+    "nest-asyncio",
+    "diffusers",
+    "transformers",
+    "accelerate"
+]
 
-def download():
-    print("🦆 DuckGen")
-    print("⏳ Baixando servidor principal...")
 
-    try:
-        urllib.request.urlretrieve(
-            RAW_URL,
-            TARGET
-        )
-    except Exception as e:
-        print()
-        print("❌ Não foi possível baixar o servidor DuckGen.")
-        print(e)
-        sys.exit(1)
+def install_dependencies():
+    print("📦 Instalando dependências...")
 
-    print("✅ Servidor principal baixado.")
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "-q",
+            "-U",
+            *PACKAGES
+        ],
+        check=True
+    )
+
+    print("✅ Dependências instaladas.")
     print()
 
 
-def run():
+def download_server():
+    print("🌐 Baixando servidor DuckGen...")
+
+    urllib.request.urlretrieve(
+        RAW_URL,
+        TARGET
+    )
+
+    print("✅ Servidor baixado.")
+    print()
+
+
+def start_server():
     print("🚀 Iniciando DuckGen...")
     print()
 
@@ -37,6 +60,11 @@ def run():
     )
 
 
+def main():
+    install_dependencies()
+    download_server()
+    start_server()
+
+
 if __name__ == "__main__":
-    download()
-    run()
+    main()
