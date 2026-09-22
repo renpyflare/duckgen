@@ -1,12 +1,11 @@
-import sys
 import subprocess
+import sys
 import urllib.request
 from pathlib import Path
 
 RAW_URL = "https://raw.githubusercontent.com/renpyflare/duckgen/refs/heads/main/duckgen_colab.py"
 
-BASE_DIR = Path(__file__).resolve().parent
-TARGET = BASE_DIR / "duckgen_colab.py"
+TARGET = Path("/content/duckgen_colab.py")
 
 
 def download():
@@ -20,11 +19,11 @@ def download():
         )
     except Exception as e:
         print()
-        print("❌ Falha ao baixar o servidor.")
+        print("❌ Não foi possível baixar o servidor DuckGen.")
         print(e)
         sys.exit(1)
 
-    print("✅ Servidor baixado.")
+    print("✅ Servidor principal baixado.")
     print()
 
 
