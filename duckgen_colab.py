@@ -1,5 +1,3 @@
-!pip install -q -U fastapi uvicorn pyngrok nest-asyncio diffusers transformers accelerate
-
 import io
 import base64
 import torch
@@ -16,7 +14,9 @@ nest_asyncio.apply()
 NGROK_TOKEN = ""
 
 if not NGROK_TOKEN:
-    raise ValueError("Coloque seu token do ngrok em NGROK_TOKEN.")
+    raise ValueError(
+        "Coloque seu token do ngrok em NGROK_TOKEN."
+    )
 
 ngrok.set_auth_token(NGROK_TOKEN)
 
@@ -110,7 +110,7 @@ async def stream(websocket: WebSocket):
     finally:
         try:
             await websocket.close()
-        except:
+        except Exception:
             pass
 
 
@@ -128,14 +128,16 @@ print("━━━━━━━━━━━━━━━━━━━━━━━━�
 print("🦆 DUCKGEN ONLINE")
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 print()
-print("COPIE ESTE DOMÍNIO NO DUCKGEN:")
+print("DOMÍNIO PARA O DUCKGEN:")
 print()
 print(domain)
 print()
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-print(f"WebSocket: wss://{domain}/duckgen/v1/stream")
-print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 print()
+print("Cole somente o domínio acima no DuckGen.")
+print()
+print(f"WebSocket interno: wss://{domain}/duckgen/v1/stream")
+print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
 config = uvicorn.Config(
     app,
@@ -146,4 +148,8 @@ config = uvicorn.Config(
 
 server = uvicorn.Server(config)
 
-await server.serve()
+import asyncio
+
+asyncio.get_event_loop().run_until_complete(
+    server.serve()
+)
