@@ -11,7 +11,7 @@ from diffusers import AutoPipelineForImage2Image
 
 nest_asyncio.apply()
 
-NGROK_TOKEN = ""
+NGROK_TOKEN = "SEU_TOKEN"
 
 if not NGROK_TOKEN:
     raise ValueError(
